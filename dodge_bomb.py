@@ -24,7 +24,7 @@ def main():
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
-        DELTA = {pg.K_UP:(0, -5), pg.K_DOWN:(0, 5), pg.K_LEFT:(-5, 0), pg.L_RIGHT:(5, 0)}
+        DELTA = {pg.K_UP:(0, -5), pg.K_DOWN:(0, 5), pg.K_LEFT:(-5, 0), pg.K_RIGHT:(5, 0)}
         if key_lst[pg.K_UP]:
             sum_mv[1] -= 5
         if key_lst[pg.K_DOWN]:
