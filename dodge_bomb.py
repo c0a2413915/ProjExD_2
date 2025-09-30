@@ -28,38 +28,35 @@ def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
     """
-    10回ループして時間ごとに倍になるSurfaceを作った
-    黒い矩形の色を変えて赤丸が表示されるようにした
-    bb_imgsというリストにappendした
-    bb_accsとして加速度のリストを作成した
+    引数なし
+    戻り値：拡大率と加速度のタプル
+    10回分の加速度と拡大率の作成
     """
     bb_imgs = []
-    for r in range(1, 11):
-        bb_img = pg.Surface((20*r, 20*r))
-        bb_img.set_colorkey((0, 0, 0))
-        pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)
+    for r in range(1, 11):  #10回ループ
+        bb_img = pg.Surface((20*r, 20*r))  #Surfaceをr倍
+        bb_img.set_colorkey((0, 0, 0))  #色をなくして枠を消す
+        pg.draw.circle(bb_img, (255, 0, 0), (10*r, 10*r), 10*r)  #bombをr倍
         bb_imgs.append(bb_img)
-    bb_accs = [a for a in range(1, 11)]
+    bb_accs = [a for a in range(1, 11)]  #加速度の設定
     return bb_imgs, bb_accs
 
 
 def gameover(screen: pg.Surface) -> None:
     """
-    空のサーフェイスに黒の矩形を描画
-    透明度を200に設定
-    白文字でGame Overと書かれたフォントを作成
-    左右にこうかとんの画像を挿入
+    引数はscreen
+    5秒間ゲームオーバー画面を表示する
     """
-    gobg_img = pg.Surface((WIDTH, HEIGHT))
+    gobg_img = pg.Surface((WIDTH, HEIGHT))  #空のSurfaceの作成
     bk_img = gobg_img.get_rect()
-    pg.draw.rect(gobg_img, (0, 0, 0), bk_img, 0)
-    gobg_img.set_alpha(200)
+    pg.draw.rect(gobg_img, (0, 0, 0), bk_img, 0)  #黒の矩形の作成
+    gobg_img.set_alpha(200)  #透明度の設定
     go_fonto  = pg.font.Font(None, 80)
-    txt = go_fonto.render("Game Over", True, (255, 255, 255))
-    txt.set_alpha(255)
-    gobg_img.blit(txt,(WIDTH // 2 - txt.get_width() // 2, HEIGHT // 2))
+    txt = go_fonto.render("Game Over", True, (255, 255, 255))  #ゲームオーバーという文字を作成
+    txt.set_alpha(255)  #ゲームオーバーの文字を不透明に
+    gobg_img.blit(txt,(WIDTH // 2 - txt.get_width() // 2, HEIGHT // 2)) #中央にゲームオーバーをblit
     go_kk_img = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)
-    go_kk_img.set_alpha(255)
+    go_kk_img.set_alpha(255) #こうかとんを不透明に
     gobg_img.blit(go_kk_img, (320, 325))
     gobg_img.blit(go_kk_img,(730, 325))
     screen.blit(gobg_img, [0, 0])
