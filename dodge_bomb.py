@@ -1,6 +1,7 @@
 import os
 import random
 import sys
+import time
 import pygame as pg
 
 
@@ -13,6 +14,35 @@ DELTA = {
     pg.K_RIGHT: (+5, 0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+
+#def init_bb_imgs()
+
+
+def gameover(screen: pg.Surface) -> None:
+    """
+    空のサーフェイスに黒の矩形を描画
+    透明度を200に設定
+    白文字でGame Overと書かれたフォントを作成
+    左右にこうかとんの画像を挿入
+    """
+    gobg_img = pg.Surface((WIDTH, HEIGHT))
+    bk_img = gobg_img.get_rect()
+    pg.draw.rect(gobg_img, (0, 0, 0), bk_img, 0)
+    gobg_img.set_alpha(200)
+    go_fonto  = pg.font.Font(None, 80)
+    txt = go_fonto.render("Game Over", True, (255, 255, 255))
+    txt.set_alpha(255)
+    gobg_img.blit(txt,(WIDTH // 2 - txt.get_width() // 2, HEIGHT // 2))
+    go_kk_img = pg.transform.rotozoom(pg.image.load("fig/8.png"), 0, 0.9)
+    go_kk_img.set_alpha(255)
+    gobg_img.blit(go_kk_img, (320, 325))
+    gobg_img.blit(go_kk_img,(730, 325))
+    screen.blit(gobg_img, [0, 0])
+    pg.display.update()
+    time.sleep(5)
+    return
+    
 
 
 def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
@@ -33,7 +63,7 @@ def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
 def main():
     pg.display.set_caption("逃げろ！こうかとん")
     screen = pg.display.set_mode((WIDTH, HEIGHT))
-    bg_img = pg.image.load("fig/pg_bg.jpg")    
+    bg_img = pg.image.load("fig/pg_bg.jpg")   
     kk_img = pg.transform.rotozoom(pg.image.load("fig/3.png"), 0, 0.9)
     kk_rct = kk_img.get_rect()
     kk_rct.center = 300, 200
@@ -52,7 +82,8 @@ def main():
                 return
         screen.blit(bg_img, [0, 0]) 
         if kk_rct.colliderect(bb_rct):  #こうかとんと爆弾の衝突判定
-            return   #　ゲームオーバー
+            gameover(screen)
+            return #ゲームオーバー
 
         key_lst = pg.key.get_pressed()
         sum_mv = [0, 0]
