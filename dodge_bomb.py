@@ -5,7 +5,6 @@ import time
 import pygame as pg
 
 
-
 WIDTH, HEIGHT = 1100, 650
 DELTA = {
     pg.K_UP: (0, -5),
@@ -14,6 +13,17 @@ DELTA = {
     pg.K_RIGHT: (+5, 0),
 }
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
+
+"""
+def get_kk_imgs() -> dict[tuple[int, int], pg.Surface]:
+    kk_dict = {
+        (0 , 0): rotozoom(kk_img, 0, 1.0),
+        (+5, 0): rotozoom(kk_img, 180, 1.0),
+        (+5, -5): rotozoom(kk_img,135, 1.0),
+        (0, -5): rotozoom(kk_img,90, 1.0)
+
+    }
+"""
 
 
 def init_bb_imgs() -> tuple[list[pg.Surface], list[int]]:
@@ -57,7 +67,6 @@ def gameover(screen: pg.Surface) -> None:
     time.sleep(5)
     return
     
-
 
 def check_bound(rct: pg.Rect) -> tuple[bool, bool]:
     """
